@@ -6,9 +6,16 @@ import { getDocumentById } from '../services/supabase'; // Changed to supabase
 import { LectureDocument } from '../types';
 import { MarkdownRenderer } from './MarkdownRenderer';
 
-// Setup PDF.js worker
-// Adding explicit https to prevent protocol-relative URL issues in some environments
-pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+// Import styles for react-pdf
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import 'react-pdf/dist/esm/Page/TextLayer.css';
+
+// Setup PDF.js worker for Vite
+// We use the local dependency to ensure stability on Vercel instead of relying on CDN
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.js',
+  import.meta.url,
+).toString();
 
 // Helper to detect range of pages to render content
 const getPageContent = (doc: LectureDocument, pageNum: number) => {
@@ -137,8 +144,8 @@ export const StudyView: React.FC = () => {
                   pageNumber={pageNumber} 
                   width={pdfWidth} 
                   className="pdf-page"
-                  renderTextLayer={false}
-                  renderAnnotationLayer={false}
+                  renderTextLayer={true}
+                  renderAnnotationLayer={true}
                 />
              </Document>
            </div>
