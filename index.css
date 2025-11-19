@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import KaTeX CSS for math rendering */
-@import 'katex/dist/katex.min.css';
-
 body {
   font-family: 'Inter', sans-serif;
   background-color: #f8fafc; /* Slate 50 */
